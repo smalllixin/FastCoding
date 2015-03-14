@@ -702,7 +702,11 @@ static id FCReadObjectInstance(__unsafe_unretained FCNSDecoder *decoder, NSUInte
     NSUInteger cacheIndex = FCCacheParsedObject(object, decoder->_objectCache);
     for (__unsafe_unretained NSString *key in definition->_propertyKeys)
     {
-        [object setValue:FCReadObject(decoder) forKey:key];
+        @try {
+            [object setValue:FCReadObject(decoder) forKey:key];
+        }
+        @catch (NSException *exception) {
+        }
     }
     id newObject = [object awakeAfterFastCoding];
     if (newObject != object)
